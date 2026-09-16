@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ห้องทดลองออกแบบผังงาน ตรวจสอบลำดับ และแปลงแนวคิดเป็นบล็อก Scratch สำหรับนักเรียน">
+  <meta name="theme-color" content="#0b1026">
+  <title>FlowLab — ออกแบบผังงานสู่ Scratch</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b1026'/%3E%3Cpath d='M18 16h28a8 8 0 0 1 8 8v16a8 8 0 0 1-8 8H18a8 8 0 0 1-8-8V24a8 8 0 0 1 8-8Z' fill='%23ffbf00'/%3E%3Cpath d='M24 25l16 7-16 7Z' fill='%230b1026'/%3E%3C/svg%3E">
+  <style>
+    :root{--bg:#080d20;--panel:#101833;--panel2:#151f40;--line:#2b3868;--text:#f7f9ff;--muted:#aeb9dc;--yellow:#ffbf00;--cyan:#25d0e9;--green:#31d07f;--pink:#f66bd4;--violet:#8e67ff;--red:#ff6176;--orange:#ff8c42;--shadow:0 18px 50px rgba(0,0,0,.28);--r:20px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(circle at 85% 0,rgba(142,103,255,.13),transparent 28%),linear-gradient(135deg,#070b1b,#0b1330 60%,#071426);color:var(--text);font-family:"Noto Sans Thai","Leelawadee UI",Tahoma,system-ui,sans-serif;font-size:16px;line-height:1.5}
+    button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid #fff;outline-offset:3px}
+    .app{min-height:100vh;display:grid;grid-template-rows:auto 1fr}.topbar{height:70px;display:flex;align-items:center;gap:16px;padding:0 24px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(8,13,32,.88);backdrop-filter:blur(16px);position:sticky;top:0;z-index:20}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:900;font-size:1.1rem;white-space:nowrap}.brandmark{width:40px;height:40px;border-radius:13px;background:var(--yellow);color:#1a1830;display:grid;place-items:center;box-shadow:0 7px 20px rgba(255,191,0,.22)}.brandmark svg{width:24px}.brand small{display:block;font-size:.72rem;color:var(--muted);font-weight:600;letter-spacing:.02em}
+    .top-actions{margin-left:auto;display:flex;gap:9px}.btn{border:1px solid var(--line);border-radius:12px;padding:10px 15px;background:#162044;color:var(--text);font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;transition:.18s transform,.18s background,.18s border-color}.btn:hover{transform:translateY(-1px);background:#1c2955;border-color:#52649d}.btn.primary{background:var(--yellow);color:#171526;border-color:var(--yellow)}.btn.success{background:var(--green);color:#072319;border-color:var(--green)}.btn.ghost{background:transparent}.btn.danger{color:#ff9aaa}.btn svg{width:18px;height:18px}.mobile-only{display:none}
+    .layout{display:grid;grid-template-columns:250px minmax(460px,1fr) 365px;min-height:calc(100vh - 70px)}.sidebar,.resultbar{padding:20px;border-color:rgba(255,255,255,.08);background:rgba(10,16,39,.72)}.sidebar{border-right:1px solid rgba(255,255,255,.08)}.resultbar{border-left:1px solid rgba(255,255,255,.08);overflow:auto}.workspace-shell{padding:20px;min-width:0}
+    .section-title{font-size:.78rem;text-transform:uppercase;letter-spacing:.11em;color:#8fa1d5;font-weight:900;margin:0 0 12px}.lesson-card{background:linear-gradient(145deg,#1b2854,#142041);border:1px solid #33467f;border-radius:18px;padding:16px;margin-bottom:20px}.lesson-card .eyebrow{font-size:.75rem;color:var(--yellow);font-weight:900}.lesson-card h2{font-size:1rem;margin:5px 0 6px}.lesson-card p{font-size:.83rem;color:var(--muted);margin:0}.lesson-select{width:100%;margin-top:12px;background:#0c1430;color:#fff;border:1px solid var(--line);border-radius:10px;padding:9px}
+    .palette{display:grid;gap:9px}.symbol{border:1px solid #33436f;background:#111a38;color:#fff;border-radius:14px;padding:10px;display:flex;align-items:center;gap:10px;text-align:left;transition:.18s}.symbol:hover{background:#19254d;transform:translateX(3px)}.symbol:active{transform:scale(.98)}.symbol-shape{width:48px;height:30px;display:grid;place-items:center;color:#0b1026;font-size:.69rem;font-weight:900;flex:0 0 auto}.shape-start{background:#ffd85e;border-radius:999px}.shape-process{background:#31d07f;border-radius:3px}.shape-input{background:#ee91e6;clip-path:polygon(14% 0,100% 0,86% 100%,0 100%)}.shape-output{background:#25b7e9;border-radius:0 13px 13px 0;clip-path:polygon(20% 0,100% 0,100% 100%,20% 100%,0 50%)}.shape-decision{background:#8e67ff;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}.shape-connector{width:30px;height:30px;background:#ff6176;border-radius:50%;margin:0 9px}.palette-note{color:var(--muted);font-size:.76rem;margin:12px 2px 0}.reference-btn{width:100%;margin-top:16px}
+    .workspace-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:15px}.workspace-head h1{font-size:clamp(1.25rem,2vw,1.7rem);margin:0}.workspace-head p{margin:3px 0 0;color:var(--muted);font-size:.88rem}.status-pill{margin-left:auto;border:1px solid #2d4075;border-radius:999px;padding:7px 11px;color:#b9c6eb;font-size:.78rem;font-weight:800;white-space:nowrap}.status-pill.saved::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:7px}
+    .canvas{position:relative;min-height:620px;border:1px solid #2a3868;border-radius:var(--r);padding:22px;background-color:#0b1230;background-image:radial-gradient(#2b3d70 1.2px,transparent 1.2px);background-size:23px 23px;box-shadow:var(--shadow);overflow:auto}.drop-hint{min-height:575px;border:2px dashed #354a81;border-radius:16px;display:grid;place-items:center;text-align:center;color:#90a0cd;padding:32px}.drop-hint strong{display:block;color:#fff;font-size:1.05rem;margin:12px 0 4px}.drop-hint svg{width:54px;color:var(--cyan)}
+    .flow-list{max-width:590px;margin:0 auto;padding-bottom:40px}.flow-node{position:relative;background:#111a37;border:1px solid #374777;border-radius:18px;padding:14px;box-shadow:0 12px 28px rgba(0,0,0,.22);animation:pop .22s ease}.flow-node.dragging{opacity:.45}.flow-node.dragover{border-color:var(--yellow);box-shadow:0 0 0 3px rgba(255,191,0,.18)}@keyframes pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
+    .flow-node:not(:last-child){margin-bottom:50px}.flow-node:not(:last-child)::after{content:"";position:absolute;left:50%;bottom:-39px;width:2px;height:28px;background:var(--cyan)}.flow-node:not(:last-child)::before{content:"";position:absolute;left:calc(50% - 5px);bottom:-42px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid var(--cyan)}
+    .node-head{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:11px}.node-index{width:28px;height:28px;border:1px solid #42558a;border-radius:9px;display:grid;place-items:center;font-size:.8rem;font-weight:900;color:#cbd5f6}.node-name{font-weight:900}.node-kind{font-size:.75rem;color:var(--muted)}.node-actions{display:flex;gap:3px}.icon-btn{border:0;background:transparent;color:#aeb9dc;border-radius:8px;width:34px;height:34px;display:grid;place-items:center}.icon-btn:hover{background:#26335c;color:#fff}.icon-btn.remove:hover{background:#55283a;color:#ff9aaa}.icon-btn svg{width:18px}.drag-handle{cursor:grab}.node-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px;padding-top:13px;border-top:1px solid #27345f}.field{display:grid;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:.74rem;color:#9eadde;font-weight:800}.field input,.field select{width:100%;background:#09112d;border:1px solid #344574;border-radius:10px;color:#fff;padding:9px 10px;min-height:41px}.field input::placeholder{color:#6878a6}.node-tip{grid-column:1/-1;font-size:.73rem;color:#8fa0d1}.node-shape{width:58px;height:36px;display:grid;place-items:center;color:#0a1025;font-size:.7rem;font-weight:900}.node-start,.node-end{background:#ffd85e;border-radius:999px}.node-process{background:var(--green)}.node-input{background:#ee91e6;clip-path:polygon(14% 0,100% 0,86% 100%,0 100%)}.node-output{background:#25b7e9;border-radius:0 15px 15px 0;clip-path:polygon(20% 0,100% 0,100% 100%,20% 100%,0 50%)}.node-decision{background:var(--violet);clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}.node-connector{width:34px;height:34px;background:var(--red);border-radius:50%;margin:0 12px}
+    .check-card{background:#101a39;border:1px solid #2d3f72;border-radius:18px;padding:16px;margin-bottom:16px}.check-card h3{margin:0 0 5px;font-size:1rem}.check-card p{margin:0;color:var(--muted);font-size:.83rem}.progress{height:8px;border-radius:99px;background:#202c54;margin:13px 0 6px;overflow:hidden}.progress span{display:block;width:0;height:100%;background:var(--cyan);transition:.35s}.check-list{display:grid;gap:8px;margin-top:13px}.check-item{display:flex;gap:9px;align-items:flex-start;font-size:.82rem;color:#b9c4e8}.check-item .dot{width:20px;height:20px;border-radius:7px;background:#202d56;display:grid;place-items:center;flex:0 0 auto;font-weight:900}.check-item.ok .dot{background:#164b38;color:#54e89c}.check-item.bad .dot{background:#55283a;color:#ff9aaa}.check-item.warn .dot{background:#4e4020;color:#ffd85e}
+    .scratch-area{display:none}.scratch-area.show{display:block}.scratch-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 0 10px}.scratch-head h3{margin:0;font-size:1rem}.scratch-stack{padding:12px 4px 24px}.sblock{--c:#4c97ff;display:block;position:relative;width:max-content;max-width:100%;min-width:165px;background:var(--c);color:#fff;padding:9px 15px;border:1px solid rgba(0,0,0,.2);border-radius:6px;text-shadow:0 1px 1px rgba(0,0,0,.25);font-size:.84rem;font-weight:800;box-shadow:inset 0 -2px rgba(0,0,0,.15);margin-top:-1px}.sblock.hat{border-radius:22px 9px 6px 6px;padding-top:12px;--c:#ffbf00;color:#2b2304;text-shadow:none}.sblock.motion{--c:#4c97ff}.sblock.looks{--c:#9966ff}.sblock.control{--c:#ffab19;color:#2e2100;text-shadow:none}.sblock.sensing{--c:#5cb1d6}.sblock.variables{--c:#ff8c1a}.sblock.endcap{--c:#ff6680}.sblock.indent{margin-left:20px;border-left:7px solid rgba(0,0,0,.13)}.sblock.branch{margin-left:20px;--c:#ffab19;color:#2e2100;text-shadow:none}.slot{display:inline-block;background:rgba(255,255,255,.9);color:#27304c;border-radius:99px;padding:1px 8px;margin:0 2px;text-shadow:none;max-width:185px;overflow:hidden;text-overflow:ellipsis;vertical-align:middle}.boolean{display:inline-block;background:#59c059;color:#10331c;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 50%,calc(100% - 8px) 100%,8px 100%,0 50%);padding:2px 12px;margin:0 3px;text-shadow:none}.scratch-empty{color:var(--muted);font-size:.84rem;padding:20px 4px}.open-scratch{width:100%;text-decoration:none;margin-top:5px}.mini-actions{display:flex;gap:7px}.mini-actions .btn{padding:7px 10px;min-height:36px;font-size:.76rem}
+    .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);background:#fff;color:#11172b;padding:11px 16px;border-radius:12px;font-weight:800;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.25s;z-index:50}.toast.show{opacity:1;transform:translate(-50%,0)}
+    dialog{width:min(760px,calc(100% - 28px));border:1px solid #3a4b7e;border-radius:22px;background:#101833;color:#fff;padding:0;box-shadow:0 30px 90px rgba(0,0,0,.6)}dialog::backdrop{background:rgba(3,6,18,.76);backdrop-filter:blur(5px)}.modal-head{display:flex;align-items:center;padding:18px 20px;border-bottom:1px solid #29365f}.modal-head h2{margin:0;font-size:1.15rem}.modal-head button{margin-left:auto}.modal-body{padding:20px;max-height:70vh;overflow:auto}.reference-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.ref-card{display:flex;gap:12px;align-items:center;background:#151f40;border:1px solid #2e3e70;border-radius:15px;padding:13px}.ref-card strong{display:block}.ref-card span{color:var(--muted);font-size:.8rem}.ref-arrow{font-size:1.5rem;color:var(--cyan);text-align:center}.kbd{display:inline-block;border:1px solid #4b5d91;border-bottom-width:3px;border-radius:6px;padding:1px 6px;font-size:.72rem;color:#c7d2f4}
+    @media(max-width:1180px){.layout{grid-template-columns:220px minmax(420px,1fr)}.resultbar{grid-column:1/-1;border-left:0;border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:1fr 1.5fr;gap:18px}.check-card{margin:0}.scratch-area{margin-top:0}.scratch-head{margin-top:0}}
+    @media(max-width:760px){.topbar{padding:0 14px}.brand small{display:none}.top-actions .hide-mobile{display:none}.mobile-only{display:inline-flex}.layout{display:block}.sidebar{display:none;position:fixed;inset:70px 0 0;z-index:15;overflow:auto;background:#0a1027}.sidebar.open{display:block}.workspace-shell{padding:12px}.workspace-head{align-items:center}.workspace-head p{display:none}.status-pill{font-size:0;padding:8px}.status-pill.saved::before{margin:0}.canvas{padding:12px;min-height:540px}.drop-hint{min-height:510px}.node-head{grid-template-columns:auto 1fr}.node-actions{grid-column:1/-1;justify-content:flex-end;border-top:1px solid #26345d;padding-top:6px}.node-form{grid-template-columns:1fr}.field.full{grid-column:auto}.node-tip{grid-column:auto}.resultbar{display:block;padding:14px}.check-card{margin-bottom:15px}.reference-grid{grid-template-columns:1fr}.btn{padding:9px 11px}.topbar .primary span{display:none}}
+    @media print{body{background:#fff;color:#111}.topbar,.sidebar,.workspace-shell,.check-card,.open-scratch,.mini-actions{display:none!important}.layout{display:block}.resultbar{display:block;background:#fff;border:0}.scratch-area{display:block!important}.scratch-head{color:#111}.sblock{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <button class="btn ghost mobile-only" id="menuBtn" aria-label="เปิดคลังสัญลักษณ์">☰</button>
+    <div class="brand"><span class="brandmark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M7 5h10a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3Z" stroke="currentColor" stroke-width="2"/><path d="m10 9 5 3-5 3V9Z" fill="currentColor"/></svg></span><span>FlowLab<small>ผังงานสู่ Scratch</small></span></div>
+    <div class="top-actions">
+      <button class="btn ghost hide-mobile" id="undoBtn" title="ย้อนกลับ" aria-label="ย้อนกลับ">↶</button>
+      <button class="btn ghost hide-mobile" id="redoBtn" title="ทำซ้ำ" aria-label="ทำซ้ำ">↷</button>
+      <button class="btn danger hide-mobile" id="clearBtn">ล้างผังงาน</button>
+      <button class="btn primary" id="checkBtn"><span>ตรวจสอบผังงาน</span> ✓</button>
+    </div>
+  </header>
+  <main class="layout">
+    <aside class="sidebar" id="sidebar">
+      <p class="section-title">ภารกิจวันนี้</p>
+      <section class="lesson-card">
+        <span class="eyebrow">ระดับเริ่มต้น</span>
+        <h2 id="lessonTitle">แมวทักทาย</h2>
+        <p id="lessonDesc">รับชื่อผู้ใช้ แล้วให้ตัวละครกล่าวสวัสดีและเคลื่อนที่</p>
+        <select class="lesson-select" id="lessonSelect" aria-label="เลือกโจทย์">
+          <option value="greeting">แมวทักทาย</option>
+          <option value="move">เดินเป็นจังหวะ</option>
+          <option value="score">ตรวจคะแนน</option>
+          <option value="blank">ผังงานเปล่า</option>
+        </select>
+        <button class="btn primary" id="loadLessonBtn" style="width:100%;margin-top:9px">โหลดตัวอย่าง</button>
+      </section>
+      <p class="section-title">คลังสัญลักษณ์</p>
+      <div class="palette" id="palette">
+        <button class="symbol" draggable="true" data-type="start"><span class="symbol-shape shape-start">เริ่ม</span><span><strong>เริ่มต้น / สิ้นสุด</strong><br><small>จุดเริ่มและจบ</small></span></button>
+        <button class="symbol" draggable="true" data-type="process"><span class="symbol-shape shape-process">ทำ</span><span><strong>ปฏิบัติงาน</strong><br><small>คำสั่งหรือคำนวณ</small></span></button>
+        <button class="symbol" draggable="true" data-type="input"><span class="symbol-shape shape-input">รับ</span><span><strong>รับข้อมูล</strong><br><small>ถามและรอคำตอบ</small></span></button>
+        <button class="symbol" draggable="true" data-type="output"><span class="symbol-shape shape-output">ผล</span><span><strong>แสดงผลทางจอภาพ</strong><br><small>พูดหรือแสดงข้อความ</small></span></button>
+        <button class="symbol" draggable="true" data-type="decision"><span class="symbol-shape shape-decision">?</span><span><strong>การตัดสินใจ</strong><br><small>ถ้า...แล้ว...มิฉะนั้น</small></span></button>
+        <button class="symbol" draggable="true" data-type="connector"><span class="symbol-shape shape-connector"></span><span><strong>จุดเชื่อมต่อ</strong><br><small>เชื่อมช่วงของผังงาน</small></span></button>
+      </div>
+      <p class="palette-note">ลากสัญลักษณ์ลงพื้นที่ทำงาน หรือแตะเพื่อเพิ่มท้ายผังงาน</p>
+      <button class="btn ghost reference-btn" id="referenceBtn">◈ ดูตารางสัญลักษณ์</button>
+    </aside>
+
+    <section class="workspace-shell">
+      <div class="workspace-head">
+        <div><h1>พื้นที่ออกแบบผังงาน</h1><p>ลากเพื่อเรียงลำดับ แล้วกำหนดการทำงานของแต่ละขั้น</p></div>
+        <span class="status-pill saved" id="saveStatus">บันทึกอัตโนมัติ</span>
+      </div>
+      <div class="canvas" id="canvas" aria-label="พื้นที่วางผังงาน">
+        <div class="drop-hint" id="dropHint"><div><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><strong>เริ่มสร้างผังงานของเรา</strong><span>ลากสัญลักษณ์จากด้านซ้ายมาวางที่นี่<br>หรือกด “โหลดตัวอย่าง” เพื่อเรียนรู้จากตัวอย่าง</span></div></div>
+        <div class="flow-list" id="flowList"></div>
+      </div>
+    </section>
+
+    <aside class="resultbar">
+      <section class="check-card">
+        <h3>ผู้ช่วยตรวจผังงาน</h3>
+        <p id="checkSummary">ยังไม่ได้ตรวจ — เริ่มวางสัญลักษณ์ได้เลย</p>
+        <div class="progress" aria-label="ความสมบูรณ์"><span id="progressBar"></span></div>
+        <div class="check-list" id="checkList">
+          <div class="check-item"><span class="dot">1</span><span>เริ่มด้วยสัญลักษณ์เริ่มต้น</span></div>
+          <div class="check-item"><span class="dot">2</span><span>เรียงขั้นตอนให้ครบและมีความหมาย</span></div>
+          <div class="check-item"><span class="dot">3</span><span>จบด้วยสัญลักษณ์สิ้นสุด</span></div>
+        </div>
+      </section>
+      <section class="scratch-area" id="scratchArea">
+        <div class="scratch-head"><h3>ขั้นตอนสร้างใน Scratch</h3><div class="mini-actions"><button class="btn ghost" id="copyBtn">คัดลอก</button><button class="btn ghost" id="printBtn">พิมพ์</button></div></div>
+        <div class="scratch-stack" id="scratchStack"><p class="scratch-empty">เมื่อผังงานผ่าน ระบบจะแสดงบล็อกที่ใช้ตรงนี้</p></div>
+        <a class="btn success open-scratch" href="https://scratch.mit.edu/projects/editor/?tutorial=getStarted" target="_blank" rel="noopener">เปิด Scratch แล้วสร้างตาม ↗</a>
+      </section>
+    </aside>
+  </main>
+</div>
+
+<dialog id="referenceDialog">
+  <div class="modal-head"><h2>สัญลักษณ์ผังงานที่ใช้ในบทเรียน</h2><button class="icon-btn" id="closeReference" aria-label="ปิด">✕</button></div>
+  <div class="modal-body">
+    <div class="reference-grid">
+      <div class="ref-card"><span class="symbol-shape shape-start">เริ่ม</span><div><strong>เริ่มต้นและสิ้นสุด</strong><span>กำหนดขอบเขตของผังงาน</span></div></div>
+      <div class="ref-card"><span class="symbol-shape shape-process">ทำ</span><div><strong>ปฏิบัติงาน</strong><span>คำนวณ กำหนดค่า หรือสั่งให้ตัวละครทำงาน</span></div></div>
+      <div class="ref-card"><span class="symbol-shape shape-input">รับ</span><div><strong>รับข้อมูล</strong><span>รับคำตอบจากผู้ใช้ด้วยบล็อกถามและรอ</span></div></div>
+      <div class="ref-card"><span class="symbol-shape shape-output">ผล</span><div><strong>แสดงผลทางจอภาพ</strong><span>แสดงข้อความด้วยบล็อกพูด</span></div></div>
+      <div class="ref-card"><span class="symbol-shape shape-decision">?</span><div><strong>การตัดสินใจ</strong><span>ตรวจเงื่อนไขแล้วเลือกทางทำงาน</span></div></div>
+      <div class="ref-card"><span class="symbol-shape shape-connector"></span><div><strong>จุดเชื่อมต่อของผังงาน</strong><span>ใช้เชื่อมผังงานช่วงที่ต่อเนื่องกัน</span></div></div>
+    </div>
+    <p class="ref-arrow">↓ ลูกศรแสดงทิศทางการทำงานจากบนลงล่าง</p>
+    <p style="color:var(--muted);font-size:.82rem">เคล็ดลับ: ใช้ปุ่ม <span class="kbd">↑</span> <span class="kbd">↓</span> ในแต่ละขั้นเพื่อเลื่อนลำดับ หรือจับปุ่ม ⠿ แล้วลาก</p>
+  </div>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const list = $('#flowList'), hint = $('#dropHint'), toast = $('#toast');
+  const uid = () => 'n' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const labels = {start:'เริ่มต้น / สิ้นสุด',process:'ปฏิบัติงาน',input:'รับข้อมูล',output:'แสดงผลทางจอภาพ',decision:'การตัดสินใจ',connector:'จุดเชื่อมต่อ'};
+  const templates = {
+    start: () => ({id:uid(),type:'start',mode:'start',label:'เริ่มต้น'}),
+    process: () => ({id:uid(),type:'process',action:'move',value:'10',variable:'คะแนน'}),
+    input: () => ({id:uid(),type:'input',prompt:'คุณชื่ออะไร?'}),
+    output: () => ({id:uid(),type:'output',message:'สวัสดี!',seconds:'2'}),
+    decision: () => ({id:uid(),type:'decision',left:'answer',operator:'=',right:'ใช่',thenAction:'พูดว่า ถูกต้อง!',elseAction:'พูดว่า ลองอีกครั้ง'}),
+    connector: () => ({id:uid(),type:'connector',label:'A'})
+  };
+  const lessons = {
+    greeting:{title:'แมวทักทาย',desc:'รับชื่อผู้ใช้ แล้วให้ตัวละครกล่าวสวัสดีและเคลื่อนที่',nodes:[
+      {type:'start',mode:'start',label:'เริ่มต้น'}, {type:'input',prompt:'คุณชื่ออะไร?'}, {type:'output',message:'สวัสดี {answer}',seconds:'2'}, {type:'process',action:'move',value:'20',variable:'คะแนน'}, {type:'start',mode:'end',label:'สิ้นสุด'}]},
+    move:{title:'เดินเป็นจังหวะ',desc:'ให้ตัวละครเดิน 4 รอบ และพูดเมื่อทำเสร็จ',nodes:[
+      {type:'start',mode:'start',label:'เริ่มต้น'}, {type:'process',action:'repeatMove',value:'4',variable:'คะแนน'}, {type:'output',message:'ถึงแล้ว!',seconds:'2'}, {type:'start',mode:'end',label:'สิ้นสุด'}]},
+    score:{title:'ตรวจคะแนน',desc:'รับคะแนน แล้วแสดงผลผ่านหรือควรฝึกเพิ่ม',nodes:[
+      {type:'start',mode:'start',label:'เริ่มต้น'}, {type:'input',prompt:'กรอกคะแนน'}, {type:'decision',left:'answer',operator:'>=',right:'50',thenAction:'พูดว่า ผ่าน',elseAction:'พูดว่า ฝึกเพิ่มนะ'}, {type:'start',mode:'end',label:'สิ้นสุด'}]},
+    blank:{title:'ผังงานเปล่า',desc:'ออกแบบขั้นตอนการทำงานด้วยตัวเอง',nodes:[]}
+  };
+  let nodes = [], history = [], future = [], draggedId = null, paletteType = null, toastTimer;
+
+  function snapshot(push=true){
+    if(push){history.push(JSON.stringify(nodes)); if(history.length>40) history.shift(); future=[];}
+    localStorage.setItem('flowlab-nodes', JSON.stringify(nodes));
+    const status=$('#saveStatus'); status.classList.add('saved'); status.textContent='บันทึกอัตโนมัติ';
+  }
+  function restore(raw){try{nodes=JSON.parse(raw)||[];render();snapshot(false)}catch(e){nodes=[];render()}}
+  function notify(msg){clearTimeout(toastTimer);toast.textContent=msg;toast.classList.add('show');toastTimer=setTimeout(()=>toast.classList.remove('show'),1800)}
+  function addNode(type,index=nodes.length){snapshot();const n=templates[type]();nodes.splice(index,0,n);render();snapshot(false);notify('เพิ่ม '+labels[type]+' แล้ว')}
+  function update(id,key,value){const n=nodes.find(x=>x.id===id);if(!n)return;snapshot();n[key]=value;if(key==='mode')n.label=value==='start'?'เริ่มต้น':'สิ้นสุด';render(false);snapshot(false)}
+  function removeNode(id){snapshot();nodes=nodes.filter(n=>n.id!==id);render();snapshot(false)}
+  function moveNode(id,dir){const i=nodes.findIndex(n=>n.id===id),j=i+dir;if(i<0||j<0||j>=nodes.length)return;snapshot();[nodes[i],nodes[j]]=[nodes[j],nodes[i]];render();snapshot(false)}
+  function shape(n){const txt=n.type==='start'?(n.mode==='end'?'จบ':'เริ่ม'):n.type==='decision'?'?':n.type==='connector'?'':n.type==='process'?'ทำ':n.type==='input'?'รับ':'ผล';return `<span class="node-shape node-${n.type}">${txt}</span>`}
+  function form(n){
+    if(n.type==='start')return `<div class="field full"><label>หน้าที่ของสัญลักษณ์</label><select data-key="mode"><option value="start" ${n.mode==='start'?'selected':''}>เริ่มต้นโปรแกรม</option><option value="end" ${n.mode==='end'?'selected':''}>สิ้นสุดโปรแกรม</option></select></div>`;
+    if(n.type==='input')return `<div class="field full"><label>ข้อความคำถาม</label><input data-key="prompt" value="${esc(n.prompt)}" placeholder="เช่น คุณชื่ออะไร?"></div><div class="node-tip">Scratch: ถาม [ข้อความ] และรอ — คำตอบจะอยู่ในบล็อก “คำตอบ”</div>`;
+    if(n.type==='output')return `<div class="field"><label>ข้อความที่จะแสดง</label><input data-key="message" value="${esc(n.message)}" placeholder="ใช้ {answer} แทนคำตอบ"></div><div class="field"><label>แสดงกี่วินาที</label><input data-key="seconds" type="number" min="0" value="${esc(n.seconds)}"></div><div class="node-tip">ใส่ {answer} ในข้อความเพื่อใช้คำตอบล่าสุดของผู้ใช้</div>`;
+    if(n.type==='process')return `<div class="field full"><label>คำสั่ง Scratch</label><select data-key="action"><option value="move" ${n.action==='move'?'selected':''}>เคลื่อนที่ ... ก้าว</option><option value="turn" ${n.action==='turn'?'selected':''}>หมุนตามเข็ม ... องศา</option><option value="wait" ${n.action==='wait'?'selected':''}>รอ ... วินาที</option><option value="changeX" ${n.action==='changeX'?'selected':''}>เปลี่ยน x ทีละ ...</option><option value="setVar" ${n.action==='setVar'?'selected':''}>กำหนดตัวแปรเป็น ...</option><option value="changeVar" ${n.action==='changeVar'?'selected':''}>เปลี่ยนตัวแปรทีละ ...</option><option value="repeatMove" ${n.action==='repeatMove'?'selected':''}>ทำซ้ำ ... รอบ: เคลื่อนที่ 10 ก้าว</option></select></div><div class="field"><label>ค่า / จำนวน</label><input data-key="value" value="${esc(n.value)}"></div><div class="field"><label>ชื่อตัวแปร (เมื่อใช้)</label><input data-key="variable" value="${esc(n.variable)}"></div>`;
+    if(n.type==='decision')return `<div class="field"><label>ข้อมูลด้านซ้าย</label><select data-key="left"><option value="answer" ${n.left==='answer'?'selected':''}>คำตอบ</option><option value="score" ${n.left==='score'?'selected':''}>ตัวแปร คะแนน</option><option value="x" ${n.left==='x'?'selected':''}>ตำแหน่ง x</option></select></div><div class="field"><label>เงื่อนไข</label><select data-key="operator"><option value="=" ${n.operator==='='?'selected':''}>เท่ากับ =</option><option value=">" ${n.operator==='>'?'selected':''}>มากกว่า &gt;</option><option value="<" ${n.operator==='<'?'selected':''}>น้อยกว่า &lt;</option><option value=">=" ${n.operator==='>='?'selected':''}>มากกว่าหรือเท่ากับ ≥</option><option value="<=" ${n.operator==='<='?'selected':''}>น้อยกว่าหรือเท่ากับ ≤</option></select></div><div class="field full"><label>ค่าที่นำมาเปรียบเทียบ</label><input data-key="right" value="${esc(n.right)}"></div><div class="field"><label>ทาง “ใช่” ให้ทำอะไร</label><input data-key="thenAction" value="${esc(n.thenAction)}"></div><div class="field"><label>ทาง “ไม่ใช่” ให้ทำอะไร</label><input data-key="elseAction" value="${esc(n.elseAction)}"></div>`;
+    return `<div class="field full"><label>ชื่อจุดเชื่อมต่อ</label><input data-key="label" maxlength="3" value="${esc(n.label)}"></div><div class="node-tip">จุดเชื่อมต่อช่วยจัดผังงานให้อ่านง่าย และไม่สร้างบล็อก Scratch เพิ่ม</div>`;
+  }
+  function render(resetCheck=true){
+    hint.hidden=nodes.length>0; list.innerHTML=nodes.map((n,i)=>`<article class="flow-node" draggable="true" data-id="${n.id}">${`<div class="node-head">${shape(n)}<div><div class="node-name">${esc(n.type==='start'?n.label:labels[n.type])}</div><div class="node-kind">ขั้นตอนที่ ${i+1}</div></div><div class="node-actions"><button class="icon-btn drag-handle" title="ลากย้ายลำดับ" aria-label="ลากย้ายลำดับ">⠿</button><button class="icon-btn" data-move="-1" title="เลื่อนขึ้น" aria-label="เลื่อนขึ้น">↑</button><button class="icon-btn" data-move="1" title="เลื่อนลง" aria-label="เลื่อนลง">↓</button><button class="icon-btn remove" data-remove title="ลบ" aria-label="ลบ">✕</button></div></div>`}<div class="node-form">${form(n)}</div></article>`).join('');
+    if(resetCheck){$('#checkSummary').textContent=nodes.length?'แก้ไขล่าสุดแล้ว — กดตรวจสอบเมื่อพร้อม':'ยังไม่ได้ตรวจ — เริ่มวางสัญลักษณ์ได้เลย';$('#progressBar').style.width='0';$('#scratchArea').classList.remove('show')}
+    bindNodes();
+  }
+  function bindNodes(){
+    list.querySelectorAll('.flow-node').forEach(el=>{
+      const id=el.dataset.id;
+      el.querySelectorAll('[data-key]').forEach(f=>f.addEventListener('change',()=>update(id,f.dataset.key,f.value)));
+      el.querySelector('[data-remove]').addEventListener('click',()=>removeNode(id));
+      el.querySelectorAll('[data-move]').forEach(b=>b.addEventListener('click',()=>moveNode(id,+b.dataset.move)));
+      el.addEventListener('dragstart',e=>{if(e.target.closest('input,select,button:not(.drag-handle)')){e.preventDefault();return}draggedId=id;el.classList.add('dragging');e.dataTransfer.effectAllowed='move'});
+      el.addEventListener('dragend',()=>{draggedId=null;el.classList.remove('dragging');document.querySelectorAll('.dragover').forEach(x=>x.classList.remove('dragover'))});
+      el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('dragover')});
+      el.addEventListener('dragleave',()=>el.classList.remove('dragover'));
+      el.addEventListener('drop',e=>{e.preventDefault();el.classList.remove('dragover');const target=nodes.findIndex(n=>n.id===id);if(paletteType){addNode(paletteType,target);paletteType=null}else if(draggedId&&draggedId!==id){snapshot();const from=nodes.findIndex(n=>n.id===draggedId);const [m]=nodes.splice(from,1);nodes.splice(from<target?target-1:target,0,m);render();snapshot(false)}});
+    });
+  }
+  function validate(){
+    const checks=[]; const add=(ok,msg,level='bad')=>checks.push({ok,msg,level});
+    add(nodes.length>=3,'มีอย่างน้อย 3 ขั้นตอน');
+    add(nodes[0]?.type==='start'&&nodes[0]?.mode==='start','ขั้นตอนแรกเป็น “เริ่มต้น”');
+    add(nodes.at(-1)?.type==='start'&&nodes.at(-1)?.mode==='end','ขั้นตอนสุดท้ายเป็น “สิ้นสุด”');
+    const middleStart=nodes.slice(1,-1).some(n=>n.type==='start');add(!middleStart,'ไม่มีสัญลักษณ์เริ่ม/จบอยู่กลางผังงาน');
+    const incomplete=nodes.some(n=>n.type==='input'&&!n.prompt.trim()||n.type==='output'&&!n.message.trim()||n.type==='process'&&!String(n.value).trim()||n.type==='decision'&&(!n.right.trim()||!n.thenAction.trim()||!n.elseAction.trim()));
+    add(!incomplete,'กรอกข้อมูลของทุกขั้นตอนครบถ้วน');
+    const duplicateConnector=nodes.filter(n=>n.type==='connector').some((n,_,a)=>a.filter(x=>x.label===n.label).length<2);add(!duplicateConnector,'จุดเชื่อมต่อทุกชื่อมีเป็นคู่',duplicateConnector?'warn':'bad');
+    const hard=checks.filter(c=>!c.ok&&c.level!=='warn');const passed=hard.length===0;
+    $('#checkList').innerHTML=checks.map(c=>`<div class="check-item ${c.ok?'ok':c.level}"><span class="dot">${c.ok?'✓':c.level==='warn'?'!':'×'}</span><span>${c.msg}</span></div>`).join('');
+    const score=Math.round(checks.filter(c=>c.ok).length/checks.length*100);$('#progressBar').style.width=score+'%';$('#progressBar').style.background=passed?'var(--green)':'var(--cyan)';
+    $('#checkSummary').textContent=passed?'ผ่านแล้ว! พร้อมนำขั้นตอนไปสร้างใน Scratch':'ยังมี '+hard.length+' จุดที่ต้องแก้ไข';
+    if(passed){buildScratch();$('#scratchArea').classList.add('show');notify('ยอดเยี่ยม! ผังงานผ่านการตรวจแล้ว');if(innerWidth<1180)$('#scratchArea').scrollIntoView({behavior:'smooth'})}else{$('#scratchArea').classList.remove('show');notify('ลองแก้ตามคำแนะนำอีกนิดนะ')}
+  }
+  function answerText(s){const parts=String(s).split('{answer}');return parts.length>1?`<span class="slot">เชื่อม [${esc(parts[0])}] กับ (คำตอบ)${parts[1]?' '+esc(parts[1]):''}</span>`:`<span class="slot">${esc(s)}</span>`}
+  function processBlock(n){const v=`<span class="slot">${esc(n.value)}</span>`,variable=`<span class="slot">${esc(n.variable||'คะแนน')}</span>`;const map={move:`<div class="sblock motion">เคลื่อนที่ ${v} ก้าว</div>`,turn:`<div class="sblock motion">หมุนตามเข็ม ${v} องศา</div>`,wait:`<div class="sblock control">รอ ${v} วินาที</div>`,changeX:`<div class="sblock motion">เปลี่ยน x ทีละ ${v}</div>`,setVar:`<div class="sblock variables">กำหนด ${variable} เป็น ${v}</div>`,changeVar:`<div class="sblock variables">เปลี่ยน ${variable} ทีละ ${v}</div>`,repeatMove:`<div class="sblock control">ทำซ้ำ ${v} รอบ</div><div class="sblock motion indent">เคลื่อนที่ <span class="slot">10</span> ก้าว</div><div class="sblock control">จบการทำซ้ำ</div>`};return map[n.action]||map.move}
+  function decisionBlock(n){const left=n.left==='answer'?'คำตอบ':n.left==='x'?'ตำแหน่ง x':'คะแนน';const op=n.operator==='>='?'≥':n.operator==='<='?'≤':n.operator;return `<div class="sblock control">ถ้า <span class="boolean">${left} ${op} ${esc(n.right)}</span> แล้ว</div><div class="sblock looks branch">${esc(n.thenAction)}</div><div class="sblock control">มิฉะนั้น</div><div class="sblock looks branch">${esc(n.elseAction)}</div><div class="sblock control">จบเงื่อนไข</div>`}
+  function buildScratch(){const html=nodes.map(n=>{if(n.type==='start')return n.mode==='start'?'<div class="sblock hat">เมื่อคลิกธงเขียว</div>':'';if(n.type==='input')return `<div class="sblock sensing">ถาม <span class="slot">${esc(n.prompt)}</span> และรอ</div>`;if(n.type==='output')return `<div class="sblock looks">พูด ${answerText(n.message)} เป็นเวลา <span class="slot">${esc(n.seconds)}</span> วินาที</div>`;if(n.type==='process')return processBlock(n);if(n.type==='decision')return decisionBlock(n);return ''}).join('');$('#scratchStack').innerHTML=html||'<p class="scratch-empty">ไม่มีบล็อกที่ต้องสร้าง</p>'}
+  function plainSteps(){return nodes.map(n=>{if(n.type==='start')return n.mode==='start'?'เมื่อคลิกธงเขียว':'';if(n.type==='input')return `ถาม "${n.prompt}" และรอ`;if(n.type==='output')return `พูด "${n.message}" เป็นเวลา ${n.seconds} วินาที`;if(n.type==='process'){const m={move:'เคลื่อนที่',turn:'หมุนตามเข็ม',wait:'รอ',changeX:'เปลี่ยน x ทีละ',setVar:`กำหนด ${n.variable} เป็น`,changeVar:`เปลี่ยน ${n.variable} ทีละ`,repeatMove:'ทำซ้ำ (เคลื่อนที่ 10 ก้าว)'};return `${m[n.action]} ${n.value}`};if(n.type==='decision')return `ถ้า ${n.left} ${n.operator} ${n.right} แล้ว ${n.thenAction} มิฉะนั้น ${n.elseAction}`;return ''}).filter(Boolean).map((x,i)=>`${i+1}. ${x}`).join('\n')}
+  function loadLesson(key){snapshot();const l=lessons[key];nodes=l.nodes.map(n=>({...n,id:uid()}));$('#lessonTitle').textContent=l.title;$('#lessonDesc').textContent=l.desc;render();snapshot(false);$('#sidebar').classList.remove('open');notify(nodes.length?'โหลดตัวอย่างแล้ว':'เปิดพื้นที่ว่างแล้ว')}
+  document.querySelectorAll('.symbol').forEach(b=>{b.addEventListener('click',()=>addNode(b.dataset.type));b.addEventListener('dragstart',e=>{paletteType=b.dataset.type;e.dataTransfer.setData('text/plain',paletteType);e.dataTransfer.effectAllowed='copy'});b.addEventListener('dragend',()=>paletteType=null)});
+  $('#canvas').addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect=paletteType?'copy':'move'});$('#canvas').addEventListener('drop',e=>{if(e.target.closest('.flow-node'))return;e.preventDefault();if(paletteType){addNode(paletteType);paletteType=null}});
+  $('#checkBtn').addEventListener('click',validate);$('#loadLessonBtn').addEventListener('click',()=>loadLesson($('#lessonSelect').value));
+  $('#lessonSelect').addEventListener('change',e=>{const l=lessons[e.target.value];$('#lessonTitle').textContent=l.title;$('#lessonDesc').textContent=l.desc});
+  $('#clearBtn').addEventListener('click',()=>{if(nodes.length&&confirm('ล้างผังงานทั้งหมดหรือไม่?')){snapshot();nodes=[];render();snapshot(false);notify('ล้างผังงานแล้ว')}});
+  $('#undoBtn').addEventListener('click',()=>{if(!history.length)return;future.push(JSON.stringify(nodes));restore(history.pop());notify('ย้อนกลับแล้ว')});
+  $('#redoBtn').addEventListener('click',()=>{if(!future.length)return;history.push(JSON.stringify(nodes));restore(future.pop());notify('ทำซ้ำแล้ว')});
+  $('#copyBtn').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(plainSteps());notify('คัดลอกขั้นตอนแล้ว')}catch(e){notify('เบราว์เซอร์ไม่อนุญาตให้คัดลอก')}});$('#printBtn').addEventListener('click',()=>print());
+  $('#menuBtn').addEventListener('click',()=>$('#sidebar').classList.toggle('open'));$('#referenceBtn').addEventListener('click',()=>$('#referenceDialog').showModal());$('#closeReference').addEventListener('click',()=>$('#referenceDialog').close());$('#referenceDialog').addEventListener('click',e=>{if(e.target===$('#referenceDialog'))e.target.close()});
+  const saved=localStorage.getItem('flowlab-nodes');if(saved){restore(saved)}else{loadLesson('greeting')} render();
+})();
+</script>
+</body>
+</html>
